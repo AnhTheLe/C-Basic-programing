@@ -1,0 +1,47 @@
+Read Successfully! 
+AdamSmith 0623578536 ASmith55432@gmail.com
+Chi 125432642 Chi96532@outlook.com
+Donald 687403455 donaldmail@gmail.com
+Helena 996533322 heln1142@gmail.com
+John 063215532 john@gmail.com
+Lily 0965231159 lilia125@email.com
+Obama 123123543 obamamail@gmail.com
+Sara 955222156 sarah@gmail.com
+SmithYouh 0922223145 SY1114@email.com
+Yudachi 5226331114 YDC5445@yahoo.com
+
+
+Options:
+0. Exit
+1. Array
+2. Singly-linked List
+3. Queue
+4. Nhap them phan tu
+5. In Queue
+Chose option: 1
+Option 1 use array
+Please enter the name to search:Chi
+Found!
+Chi 125432642 Chi96532@outlook.com
+
+
+Options:
+Donald  donaldmail@gmail.com    687403455
+Helena  heln1142@gmail.com      996533322
+John    john@gmail.com  063215532
+Lily    lilia125@email.com      0965231159
+Obama   obamamail@gmail.com     123123543
+Sara    sarah@gmail.com 955222156
+SmithYouh       SY1114@email.com        0922223145
+Yudachi YDC5445@yahoo.com       5226331114
+Theanh  theanh@gmail.com        012345678
+
+
+Options:
+0. Exit
+1. Array
+2. Singly-linked List
+3. Queue
+4. Nhap them phan tu
+5. In Queue
+Chose option: 0
