@@ -3,99 +3,157 @@ Lê Thế Anh
 MSSV: 20200018
 */
 #include <stdio.h>
-#define maxSize 30
+#include <string.h>
+#include <stdlib.h>
+int stackToanTu[100];
+char stackSoHang[100];
+int topToanTu = 0;
+int topSoHang = 0;
 
-// Stack dung de luu phep toan
-char stack[maxSize];
-int size = 0;
-void push(char operator) {
-   if (size == maxSize - 1) {
-      printf("Stack overflow");
-      return;
-   }
-   stack[size] = operator;
-   size++;
-}
-char pop() {
-   if (size == 0) {
-      printf("Stack empty");
-      return '\n';
-   }
-   return stack[--size];
-}
-char getTop() { return stack[size - 1]; }
-
-// Ham lay thu tu thuc hien phep tinh
-int getOrder(char c) {
-   if (c == '+' || c == '-')
-      return 0;
-   else
-      return 1;
+// stack luu toan tu
+char popToanTu()
+{
+	char result;
+	result = stackToanTu[topToanTu];
+	--topToanTu;
+	return result;
 }
 
-// Stack dung de tinh toan ket qua
-int numberStack[maxSize];
-int numSize = 0;
-void pushNum(int x) {
-   if (numSize == maxSize - 1) {
-      printf("Stack overflow");
-      return;
-   }
-   numberStack[numSize] = x;
-   numSize++;
+char getToanTu()
+{
+	char result;
+	result = stackToanTu[topToanTu];
+	return result;
 }
-int popNum() {
-   if (numSize == 0) {
-      printf("Stack empty");
-      return '\n';
-   }
-   return numberStack[--numSize];
+
+void pushToanTu(int num)
+{
+	++topToanTu;
+	stackToanTu[topToanTu] = num;	
 }
-int main() {
-   char c = getchar();
-   int x;
-   int result = 0;
-   do {
-      if ('0' <= c && c <= '9') {
-         pushNum((int)c - '0');
-         putchar(c);
-         putchar(' ');
-      } else {
-         int order = getOrder(c);
-         while (size > 0 && getOrder(getTop()) >= order) {
-            char operator= pop();
-            int tmp = popNum();
-            if (operator== '+')
-               tmp += popNum();
-            if (operator== '-')
-               tmp = popNum() - tmp;
-            if (operator== '*')
-               tmp *= popNum();
-            if (operator== '/')
-               tmp = popNum() / tmp;
-            pushNum(tmp);
-            putchar(operator);
-            putchar(' ');
-         }
-         push(c);
-      }
-      c = getchar();
-   } while (c != '\n');
-   while (size > 0) {
-      char operator= pop();
-      int tmp = popNum();
-      if (operator== '+')
-         tmp += popNum();
-      if (operator== '-')
-         tmp = popNum() - tmp;
-      if (operator== '*')
-         tmp *= popNum();
-      if (operator== '/')
-         tmp = popNum() / tmp;
-      pushNum(tmp);
-      putchar(operator);
-      putchar(' ');
-   }
-   result = popNum();
-   printf("\nResult = %d", result);
+
+// stack luu so hang
+int popSoHang()
+{
+	int result;
+	result = stackSoHang[topSoHang];
+	--topSoHang;
+	return result;
+}
+
+void pushSoHang(int num)
+{
+	++topSoHang;
+	stackSoHang[topSoHang] = num;	
+}
+
+
+
+// Kiem tra co phai so hang khong
+int isNumber(char num)
+{
+	if(num >= '0' && num <= '9')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+	{
+		return 1;
+	}
+	return 0;
+}
+// Kiem tra co phai phep toan khong
+int isOp(char op)
+{
+	if(op == '+' || op == '-' || op == '*' || op == '/')
+	{
+		return 1;
+	}
+	return 0;
+}
+
+int thucHienPhepToan(int num1, int num2, char op)
+{
+	int result;
+	switch(op) {
+		case '+':
+			result = num1 + num2;
+			break;
+		case '-':
+			result = num1 - num2;
+			break;
+		case '*':
+			result = num1 * num2;
+			break;
+		case '/':
+			result = num1 / num2;
+			break;
+	}
+	return result;
+}
+
+
+int getOrder(char op)
+{
+	if(op == '+' || op == '-')
+		return 1;
+	else if(op == '*' || op == '/')
+		return 2;	
+}
+
+
+// Thuc hien tinh toan
+int tinhToan()
+{
+	int num1, num2, result;
+	
+	while(topToanTu > 0)
+	{
+		char op = popToanTu();
+		num2 = popSoHang();
+		num1 = popSoHang();
+		result = thucHienPhepToan(num1, num2, op);
+		pushSoHang(result);
+		printf("%c ", op);
+	}
+
+	return (popSoHang());
+}
+
+void chuyenHauTo(char string[])
+{
+	char c;
+	for(int i = 0; i < strlen(string); i++)
+	{
+		c = string[i];
+		if(isNumber(c))
+		{
+			
+			pushSoHang((int)c - '0'); // chuyen ky tu sang dang int va push vao stack
+			printf("%c ", c);
+		}
+		else if(isOp(c))
+		{
+			int order = getOrder(c);
+			while(topToanTu > 0 && getOrder(getToanTu()) >= order)
+			{
+				char op = popToanTu();
+				int num2 = popSoHang();
+				int num1 = popSoHang();
+				int result = thucHienPhepToan(num1, num2, op);
+				pushSoHang(result);
+				printf("%c ", op);
+			}
+			pushToanTu(c);
+		}
+	}
+}
+
+int main()
+{
+	char expression[100];
+	int result;
+	printf("Xau bieu thuc: ");
+	fflush(stdin);
+	scanf("%100s", expression);
+	chuyenSangHauTo(expression);
+	result = tinhToan();
+	printf("\nGia tri: %d", result);
+	return 0;
 }
